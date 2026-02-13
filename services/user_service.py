@@ -5,7 +5,8 @@ class UserService:
         self.users = []
 
     def create_usuario(self, name, email, password, cpf):
-        if self.get_usuario(cpf):
+        user, _ = self.get_usuario(cpf)
+        if user:
             return None, "Usuário já existe"
         
         new_user = User(name, email, password, cpf)
@@ -18,11 +19,11 @@ class UserService:
     def get_usuario(self, cpf):
         for user in self.users:
             if user.cpf == cpf:
-                return user
+                return user, None
         return None, "Usuário não encontrado"
 
     def delete_usuario(self, cpf):
-        user = self.get_usuario(cpf)
+        user, _ = self.get_usuario(cpf)
         if user:
             self.users.remove(user)
             return True, "Usuário deletado com sucesso"

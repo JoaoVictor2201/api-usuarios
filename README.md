@@ -1,54 +1,123 @@
-# API de Usuários (Flask)
+# 👤 API de Usuários
 
-API simples em Flask para gerenciar usuários em memória.
+Bem-vindo à **API de Usuários**, um projeto simples e eficiente desenvolvido com **Flask** para gerenciamento de usuários.
 
-## Visão geral
-- Projeto minimalista: rotas, serviço e modelo.
-- Armazenamento em memória (sem persistência).
-- Não exponha em produção.
+Esta API permite operações CRUD (Criar, Ler, Atualizar, Deletar) em uma lista de usuários armazenada em memória. Ideal para estudos e testes rápidos de integração.
 
-## Requisitos
-- Python 3.8+
-- Flask
+## 🚀 Tecnologias Utilizadas
 
-## Instalação
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-pip install Flask
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
 
-python [app.py](http://_vscodecontentref_/0)
-# A API roda em http://127.0.0.1:5000
+## 🔧 Instalação e Execução
 
-Endpoints
-GET /users
-Retorna lista de usuários (JSON).
+Siga os passos abaixo para rodar o projeto localmente:
 
-GET /users/<cpf>
-Retorna usuário por CPF — 200 se encontrado, 404 caso contrário.
+1.  **Clone o repositório** (se estiver usando git):
+    ```bash
+    git clone https://github.com/seu-usuario/seu-repo.git
+    cd seu-repo
+    ```
 
-POST /users
-Cria usuário. Corpo JSON esperado:
-{ "name": "...", "email": "...", "password": "...", "cpf": "..." }
-Respostas: 201 (criado) ou 400 (erro).
+2.  **Crie um ambiente virtual** (recomendado):
+    ```powershell
+    # Windows
+    python -m venv .venv
+    .\.venv\Scripts\activate
+    ```
 
-DELETE /users/<cpf>
-Remove usuário por CPF — 200 sucesso, 404 não encontrado.
+3.  **Instale as dependências**:
+    ```bash
+    pip install Flask
+    ```
 
-Observações de segurança
-Método User.to_dict() não deve expor a senha por padrão.
-Dados não persistem entre reinícios.
-Testes
-Se houver testes:
-python -m pytestpython -m pytest
+4.  **Execute a aplicação**:
+    ```bash
+    python app.py
+    ```
+    A API estará rodando em: `http://127.0.0.1:5000`
 
-Estrutura importante
-app.py
-controllers/user_controller.py
-services/user_service.py
-models/user_model.py
-Contribuição
-Abra issues ou PRs com melhorias.
+## 🔌 Endpoints da API
 
-Licença
-Sem licença especificada (adicione um LICENSE se desejar).
+Abaixo estão listadas as rotas disponíveis para interagir com a API.
+
+### 1. Listar todos os usuários
+- **Rota:** `/users`
+- **Método:** `GET`
+- **Descrição:** Retorna uma lista com todos os usuários cadastrados.
+- **Resposta Sucesso (200):**
+  ```json
+  [
+    {
+      "nome": "João",
+      "email": "joao@email.com",
+      "cpf": "12345678901",
+      "senha": "123"
+    }
+  ]
+  ```
+
+### 2. Buscar usuário por CPF
+- **Rota:** `/users/<cpf>`
+- **Método:** `GET`
+- **Descrição:** Retorna os detalhes de um usuário específico.
+- **Resposta Sucesso (200):**
+  ```json
+  {
+    "nome": "João",
+    "email": "joao@email.com",
+    "cpf": "12345678901",
+    "senha": "123"
+  }
+  ```
+- **Resposta Erro (404):** `{"error": "Usuário não encontrado"}`
+
+### 3. Criar novo usuário
+- **Rota:** `/users/`
+- **Método:** `POST`
+- **Body (JSON):**
+  ```json
+  {
+      "nome": "Maria",
+      "email": "maria@email.com",
+      "senha": "securePass",
+      "cpf": "98765432100"
+  }
+  ```
+- **Resposta Sucesso (201):** Retorna o usuário criado.
+- **Resposta Erro (400):** `{"error": "Usuário já existe"}` ou `{"error": "Dados inválidos"}`
+
+### 4. Deletar usuário
+- **Rota:** `/users/<cpf>`
+- **Método:** `DELETE`
+- **Descrição:** Remove um usuário do sistema.
+- **Resposta Sucesso (200):** `{"message": "Usuário deletado com sucesso"}`
+- **Resposta Erro (404):** `{"error": "Usuário não encontrado"}`
+
+## 📁 Estrutura do Projeto
+
+A organização do código segue o padrão **MVC (Model-View-Controller)** adaptado para uma API:
+
+```
+.
+├── controllers/
+│   └── user_controller.py  # Gerencia as rotas e requisições HTTP
+├── models/
+│   └── user_model.py       # Define a estrutura de dados do Usuário
+├── services/
+│   └── user_service.py     # Contém a regra de negócios (CRUD)
+├── app.py                  # Ponto de entrada da aplicação
+└── README.md               # Documentação do projeto
+```
+
+## ⚠️ Observações
+- Os dados são armazenados **em memória** (lista Python). Se a aplicação for reiniciada, todos os dados serão perdidos.
+- Este projeto é para fins educacionais e **não** deve ser usado em produção sem adicionar persistência (banco de dados) e autenticação.
+
+---
+### Integrantes do Projeto
+- João Victor França - 2402779
+- Gustavo Bomfim - 2403139
+- Ana Laura Brandão - 2402680
+- Alex Manoel - 1701381
+- Gabriel Gonçalves - 2402912
